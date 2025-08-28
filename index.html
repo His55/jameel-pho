@@ -1,0 +1,1267 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>جميل غانم - مصور فوتوغرافي محترف</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap');
+        
+        * {
+            font-family: 'Cairo', sans-serif;
+        }
+        
+        .brand-red { background-color: #dc2626; }
+        .brand-red-hover:hover { background-color: #b91c1c; }
+        .text-brand-red { color: #dc2626; }
+        
+        .gallery-item {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        
+        .admin-panel {
+            background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
+        }
+        
+        .modal {
+            backdrop-filter: blur(10px);
+        }
+        
+        .image-preview {
+            max-width: 200px;
+            max-height: 200px;
+            object-fit: cover;
+        }
+        
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .portfolio-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-black text-white shadow-lg fixed w-full top-0 z-50">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center space-x-4 space-x-reverse">
+                    <h1 class="text-2xl font-bold text-brand-red">جميل غانم</h1>
+                    <span class="text-gray-300">مصور فوتوغرافي</span>
+                </div>
+                <div class="hidden md:flex space-x-6 space-x-reverse">
+                    <a href="#home" class="hover:text-brand-red transition-colors">الرئيسية</a>
+                    <a href="#portfolio" class="hover:text-brand-red transition-colors">معرض الأعمال</a>
+                    <a href="#services" class="hover:text-brand-red transition-colors">الخدمات</a>
+                    <a href="#about" class="hover:text-brand-red transition-colors">نبذة عني</a>
+                    <a href="#contact" class="hover:text-brand-red transition-colors">التواصل</a>
+                    <button onclick="showAdminLogin()" class="bg-brand-red px-4 py-2 rounded hover:bg-red-700 transition-colors">
+                        <i class="fas fa-cog ml-2"></i>إدارة الموقع
+                    </button>
+                </div>
+                <button class="md:hidden" onclick="toggleMobileMenu()">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="hidden md:hidden bg-gray-900 px-4 py-4">
+            <a href="#home" class="block py-2 hover:text-brand-red">الرئيسية</a>
+            <a href="#portfolio" class="block py-2 hover:text-brand-red">معرض الأعمال</a>
+            <a href="#services" class="block py-2 hover:text-brand-red">الخدمات</a>
+            <a href="#about" class="block py-2 hover:text-brand-red">نبذة عني</a>
+            <a href="#contact" class="block py-2 hover:text-brand-red">التواصل</a>
+            <button onclick="showAdminLogin()" class="block w-full text-right py-2 text-brand-red">إدارة الموقع</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="bg-black text-white pt-20 pb-16">
+        <div class="container mx-auto px-4 text-center">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-5xl font-bold mb-6">
+                    مرحباً بكم في عالم <span class="text-brand-red">التصوير الاحترافي</span>
+                </h2>
+                <p class="text-xl mb-8 text-gray-300" id="heroDescription">
+                    أسعى لتخليد لحظاتكم الثمينة بأجمل الصور وأروع الذكريات
+                </p>
+                <div class="flex justify-center space-x-4 space-x-reverse">
+                    <a href="https://wa.me/967771145933" class="bg-brand-red px-8 py-3 rounded-lg hover:bg-red-700 transition-colors">
+                        <i class="fab fa-whatsapp ml-2"></i>تواصل معي
+                    </a>
+                    <a href="#portfolio" class="border border-white px-8 py-3 rounded-lg hover:bg-white hover:text-black transition-colors">
+                        استعرض أعمالي
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-bold text-center mb-12 text-black">معرض الأعمال</h2>
+            
+            <!-- Filter Buttons -->
+            <div class="flex justify-center mb-8 flex-wrap gap-4">
+                <button onclick="filterPortfolio('all')" class="filter-btn bg-brand-red text-white px-6 py-2 rounded-lg">
+                    جميع الأعمال
+                </button>
+                <button onclick="filterPortfolio('wedding')" class="filter-btn bg-gray-200 text-black px-6 py-2 rounded-lg hover:bg-brand-red hover:text-white">
+                    حفلات الزفاف
+                </button>
+                <button onclick="filterPortfolio('portrait')" class="filter-btn bg-gray-200 text-black px-6 py-2 rounded-lg hover:bg-brand-red hover:text-white">
+                    جلسات تصوير
+                </button>
+                <button onclick="filterPortfolio('event')" class="filter-btn bg-gray-200 text-black px-6 py-2 rounded-lg hover:bg-brand-red hover:text-white">
+                    مناسبات
+                </button>
+                <button onclick="filterPortfolio('product')" class="filter-btn bg-gray-200 text-black px-6 py-2 rounded-lg hover:bg-brand-red hover:text-white">
+                    منتجات
+                </button>
+            </div>
+            
+            <!-- Portfolio Grid -->
+            <div id="portfolioGrid" class="portfolio-grid">
+                <!-- Portfolio items will be loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-16 bg-gray-100">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-bold text-center mb-12 text-black">خدماتي</h2>
+            <div id="servicesGrid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Services will be loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-4xl font-bold mb-8 text-black">نبذة عني</h2>
+                <div id="aboutContent" class="text-lg text-gray-700 leading-relaxed">
+                    <!-- About content will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Articles Section -->
+    <section id="articles" class="py-16 bg-gray-100">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-bold text-center mb-12 text-black">مقالات ونصائح</h2>
+            <div id="articlesGrid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Articles will be loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-16 bg-black text-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-bold text-center mb-12">تواصل معي</h2>
+            <div class="grid md:grid-cols-2 gap-12">
+                <div>
+                    <h3 class="text-2xl font-bold mb-6 text-brand-red">معلومات التواصل</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center">
+                            <i class="fas fa-phone text-brand-red ml-4 text-xl"></i>
+                            <span id="contactPhone">771145933</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fab fa-whatsapp text-brand-red ml-4 text-xl"></i>
+                            <a href="https://wa.me/967771145933" class="hover:text-brand-red">واتساب</a>
+                        </div>
+                        <div id="socialLinks" class="flex space-x-4 space-x-reverse mt-6">
+                            <!-- Social links will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-2xl font-bold mb-6 text-brand-red">أرسل رسالة</h3>
+                    <form id="contactForm" class="space-y-4">
+                        <input type="text" id="clientName" placeholder="الاسم" class="w-full p-3 rounded bg-gray-800 text-white border border-gray-600 focus:border-brand-red">
+                        <input type="email" id="clientEmail" placeholder="البريد الإلكتروني" class="w-full p-3 rounded bg-gray-800 text-white border border-gray-600 focus:border-brand-red">
+                        <input type="tel" id="clientPhone" placeholder="رقم الهاتف" class="w-full p-3 rounded bg-gray-800 text-white border border-gray-600 focus:border-brand-red">
+                        <textarea id="clientMessage" placeholder="الرسالة" rows="5" class="w-full p-3 rounded bg-gray-800 text-white border border-gray-600 focus:border-brand-red"></textarea>
+                        <button type="submit" class="w-full bg-brand-red py-3 rounded hover:bg-red-700 transition-colors">
+                            إرسال الرسالة
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-8">
+        <div class="container mx-auto px-4 text-center">
+            <p>&copy; 2024 جميل غانم - جميع الحقوق محفوظة</p>
+        </div>
+    </footer>
+
+    <!-- Admin Login Modal -->
+    <div id="adminLoginModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 modal">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-lg p-8 max-w-md w-full">
+                <h3 class="text-2xl font-bold mb-6 text-center text-black">دخول المدير</h3>
+                <form id="adminLoginForm">
+                    <input type="text" id="adminUsername" placeholder="اسم المستخدم" class="w-full p-3 mb-4 border rounded">
+                    <input type="password" id="adminPassword" placeholder="كلمة المرور" class="w-full p-3 mb-6 border rounded">
+                    <div class="flex space-x-4 space-x-reverse">
+                        <button type="submit" class="flex-1 bg-brand-red text-white py-3 rounded hover:bg-red-700">دخول</button>
+                        <button type="button" onclick="hideAdminLogin()" class="flex-1 bg-gray-300 text-black py-3 rounded hover:bg-gray-400">إلغاء</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Panel -->
+    <div id="adminPanel" class="fixed inset-0 bg-gray-900 hidden z-50 admin-panel overflow-y-auto">
+        <div class="container mx-auto px-4 py-8">
+            <!-- Admin Header -->
+            <div class="flex justify-between items-center mb-8 bg-gray-800 p-4 rounded-lg">
+                <h2 class="text-2xl font-bold text-white">لوحة التحكم - جميل غانم</h2>
+                <button onclick="hideAdminPanel()" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
+                    <i class="fas fa-times ml-2"></i>إغلاق
+                </button>
+            </div>
+
+            <!-- Admin Navigation -->
+            <div class="flex flex-wrap gap-4 mb-8">
+                <button onclick="showAdminSection('portfolio')" class="admin-nav-btn bg-brand-red text-white px-6 py-3 rounded">
+                    <i class="fas fa-images ml-2"></i>إدارة المعرض
+                </button>
+                <button onclick="showAdminSection('services')" class="admin-nav-btn bg-gray-600 text-white px-6 py-3 rounded">
+                    <i class="fas fa-briefcase ml-2"></i>إدارة الخدمات
+                </button>
+                <button onclick="showAdminSection('about')" class="admin-nav-btn bg-gray-600 text-white px-6 py-3 rounded">
+                    <i class="fas fa-user ml-2"></i>السيرة الذاتية
+                </button>
+                <button onclick="showAdminSection('articles')" class="admin-nav-btn bg-gray-600 text-white px-6 py-3 rounded">
+                    <i class="fas fa-newspaper ml-2"></i>المقالات
+                </button>
+                <button onclick="showAdminSection('settings')" class="admin-nav-btn bg-gray-600 text-white px-6 py-3 rounded">
+                    <i class="fas fa-cog ml-2"></i>الإعدادات
+                </button>
+                <button onclick="showAdminSection('messages')" class="admin-nav-btn bg-gray-600 text-white px-6 py-3 rounded">
+                    <i class="fas fa-envelope ml-2"></i>الرسائل
+                </button>
+                <button onclick="showAdminSection('account')" class="admin-nav-btn bg-gray-600 text-white px-6 py-3 rounded">
+                    <i class="fas fa-key ml-2"></i>إدارة الحساب
+                </button>
+            </div>
+
+            <!-- Admin Sections -->
+            <div id="adminContent" class="bg-gray-800 rounded-lg p-6">
+                <!-- Portfolio Management -->
+                <div id="adminPortfolio" class="admin-section">
+                    <h3 class="text-xl font-bold text-white mb-6">إدارة معرض الأعمال</h3>
+                    
+                    <!-- Add New Image Form -->
+                    <div class="bg-gray-700 p-6 rounded-lg mb-6">
+                        <h4 class="text-lg font-bold text-white mb-4">إضافة صورة جديدة</h4>
+                        <form id="addImageForm" class="space-y-4">
+                            <input type="text" id="imageTitle" placeholder="عنوان الصورة" class="w-full p-3 rounded bg-gray-600 text-white">
+                            <select id="imageCategory" class="w-full p-3 rounded bg-gray-600 text-white">
+                                <option value="wedding">حفلات الزفاف</option>
+                                <option value="portrait">جلسات تصوير</option>
+                                <option value="event">مناسبات</option>
+                                <option value="product">منتجات</option>
+                            </select>
+                            <textarea id="imageDescription" placeholder="وصف الصورة" class="w-full p-3 rounded bg-gray-600 text-white" rows="3"></textarea>
+                            <input type="file" id="imageFile" accept="image/*" class="w-full p-3 rounded bg-gray-600 text-white">
+                            <div id="imagePreview" class="hidden">
+                                <img id="previewImg" class="image-preview rounded">
+                            </div>
+                            <button type="submit" class="bg-brand-red text-white px-6 py-3 rounded hover:bg-red-700">
+                                <i class="fas fa-plus ml-2"></i>إضافة الصورة
+                            </button>
+                        </form>
+                    </div>
+                    
+                    <!-- Existing Images -->
+                    <div id="adminPortfolioList" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Portfolio items will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- Services Management -->
+                <div id="adminServices" class="admin-section hidden">
+                    <h3 class="text-xl font-bold text-white mb-6">إدارة الخدمات</h3>
+                    
+                    <!-- Add New Service Form -->
+                    <div class="bg-gray-700 p-6 rounded-lg mb-6">
+                        <h4 class="text-lg font-bold text-white mb-4">إضافة خدمة جديدة</h4>
+                        <form id="addServiceForm" class="space-y-4">
+                            <input type="text" id="serviceName" placeholder="اسم الخدمة" class="w-full p-3 rounded bg-gray-600 text-white">
+                            <textarea id="serviceDescription" placeholder="وصف الخدمة" class="w-full p-3 rounded bg-gray-600 text-white" rows="3"></textarea>
+                            <input type="text" id="servicePrice" placeholder="السعر (اختياري)" class="w-full p-3 rounded bg-gray-600 text-white">
+                            <select id="serviceCategory" class="w-full p-3 rounded bg-gray-600 text-white">
+                                <option value="photography">تصوير فوتوغرافي</option>
+                                <option value="video">تصوير فيديو</option>
+                                <option value="editing">تحرير وتعديل</option>
+                                <option value="package">باقة شاملة</option>
+                            </select>
+                            <button type="submit" class="bg-brand-red text-white px-6 py-3 rounded hover:bg-red-700">
+                                <i class="fas fa-plus ml-2"></i>إضافة الخدمة
+                            </button>
+                        </form>
+                    </div>
+                    
+                    <!-- Existing Services -->
+                    <div id="adminServicesList" class="space-y-4">
+                        <!-- Services will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- About Management -->
+                <div id="adminAbout" class="admin-section hidden">
+                    <h3 class="text-xl font-bold text-white mb-6">إدارة السيرة الذاتية</h3>
+                    <form id="aboutForm" class="space-y-4">
+                        <textarea id="aboutText" placeholder="اكتب سيرتك الذاتية وخبراتك هنا..." class="w-full p-4 rounded bg-gray-600 text-white" rows="10"></textarea>
+                        <button type="submit" class="bg-brand-red text-white px-6 py-3 rounded hover:bg-red-700">
+                            <i class="fas fa-save ml-2"></i>حفظ التغييرات
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Articles Management -->
+                <div id="adminArticles" class="admin-section hidden">
+                    <h3 class="text-xl font-bold text-white mb-6">إدارة المقالات</h3>
+                    
+                    <!-- Add New Article Form -->
+                    <div class="bg-gray-700 p-6 rounded-lg mb-6">
+                        <h4 class="text-lg font-bold text-white mb-4">إضافة مقال جديد</h4>
+                        <form id="addArticleForm" class="space-y-4">
+                            <input type="text" id="articleTitle" placeholder="عنوان المقال" class="w-full p-3 rounded bg-gray-600 text-white">
+                            <textarea id="articleContent" placeholder="محتوى المقال" class="w-full p-4 rounded bg-gray-600 text-white" rows="8"></textarea>
+                            <button type="submit" class="bg-brand-red text-white px-6 py-3 rounded hover:bg-red-700">
+                                <i class="fas fa-plus ml-2"></i>إضافة المقال
+                            </button>
+                        </form>
+                    </div>
+                    
+                    <!-- Existing Articles -->
+                    <div id="adminArticlesList" class="space-y-4">
+                        <!-- Articles will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- Settings Management -->
+                <div id="adminSettings" class="admin-section hidden">
+                    <h3 class="text-xl font-bold text-white mb-6">إعدادات الموقع</h3>
+                    <form id="settingsForm" class="space-y-4">
+                        <input type="text" id="siteTitle" placeholder="عنوان الموقع" class="w-full p-3 rounded bg-gray-600 text-white">
+                        <textarea id="heroDesc" placeholder="وصف الصفحة الرئيسية" class="w-full p-3 rounded bg-gray-600 text-white" rows="3"></textarea>
+                        <input type="tel" id="phoneNumber" placeholder="رقم الهاتف" class="w-full p-3 rounded bg-gray-600 text-white">
+                        <input type="url" id="facebookLink" placeholder="رابط الفيسبوك" class="w-full p-3 rounded bg-gray-600 text-white">
+                        <input type="url" id="instagramLink" placeholder="رابط الإنستغرام" class="w-full p-3 rounded bg-gray-600 text-white">
+                        <input type="url" id="twitterLink" placeholder="رابط تويتر" class="w-full p-3 rounded bg-gray-600 text-white">
+                        <button type="submit" class="bg-brand-red text-white px-6 py-3 rounded hover:bg-red-700">
+                            <i class="fas fa-save ml-2"></i>حفظ الإعدادات
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Messages Management -->
+                <div id="adminMessages" class="admin-section hidden">
+                    <h3 class="text-xl font-bold text-white mb-6">رسائل العملاء</h3>
+                    <div id="messagesList" class="space-y-4">
+                        <!-- Messages will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- Account Management -->
+                <div id="adminAccount" class="admin-section hidden">
+                    <h3 class="text-xl font-bold text-white mb-6">إدارة الحساب</h3>
+                    <div class="bg-gray-700 p-6 rounded-lg">
+                        <h4 class="text-lg font-bold text-white mb-4">تغيير بيانات الدخول</h4>
+                        <form id="accountForm" class="space-y-4">
+                            <input type="text" id="newUsername" placeholder="اسم المستخدم الجديد" class="w-full p-3 rounded bg-gray-600 text-white">
+                            <input type="password" id="currentPassword" placeholder="كلمة المرور الحالية" class="w-full p-3 rounded bg-gray-600 text-white">
+                            <input type="password" id="newPassword" placeholder="كلمة المرور الجديدة" class="w-full p-3 rounded bg-gray-600 text-white">
+                            <input type="password" id="confirmPassword" placeholder="تأكيد كلمة المرور الجديدة" class="w-full p-3 rounded bg-gray-600 text-white">
+                            <button type="submit" class="bg-brand-red text-white px-6 py-3 rounded hover:bg-red-700">
+                                <i class="fas fa-save ml-2"></i>حفظ التغييرات
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Image Lightbox -->
+    <div id="lightbox" class="fixed inset-0 bg-black bg-opacity-90 hidden z-50 flex items-center justify-center">
+        <div class="relative max-w-4xl max-h-full p-4">
+            <img id="lightboxImg" class="max-w-full max-h-full object-contain">
+            <button onclick="closeLightbox()" class="absolute top-4 right-4 text-white text-3xl hover:text-brand-red">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Local Storage Database Simulation
+        class LocalDB {
+            constructor() {
+                this.initializeDB();
+            }
+
+            initializeDB() {
+                if (!localStorage.getItem('photographerDB')) {
+                    const initialData = {
+                        portfolio: [
+                            {
+                                id: 1,
+                                title: "حفل زفاف رائع",
+                                category: "wedding",
+                                description: "لحظات جميلة من حفل زفاف مميز",
+                                imageUrl: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgZmlsbD0iI2Y3ZmFmYyIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiM0YTVjNmEiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7Ysdin2YXZhCDYstmB2KfZgTwvdGV4dD48L3N2Zz4=",
+                                dateAdded: new Date().toISOString()
+                            },
+                            {
+                                id: 2,
+                                title: "جلسة تصوير شخصية",
+                                category: "portrait",
+                                description: "جلسة تصوير احترافية للبورتريه",
+                                imageUrl: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgZmlsbD0iI2VkZjJmNyIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiM0YTVjNmEiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7YrNmE2LPYqSDYqti12YjZitixPC90ZXh0Pjwvc3ZnPg==",
+                                dateAdded: new Date().toISOString()
+                            }
+                        ],
+                        services: [
+                            {
+                                id: 1,
+                                name: "تصوير حفلات الزفاف",
+                                description: "تصوير احترافي لحفلات الزفاف مع تغطية شاملة لجميع اللحظات المميزة",
+                                price: "حسب الباقة",
+                                category: "photography"
+                            },
+                            {
+                                id: 2,
+                                name: "جلسات التصوير الشخصية",
+                                description: "جلسات تصوير احترافية للأفراد والعائلات في استوديو أو خارجي",
+                                price: "200 ريال",
+                                category: "photography"
+                            }
+                        ],
+                        articles: [
+                            {
+                                id: 1,
+                                title: "نصائح للحصول على أفضل صور الزفاف",
+                                content: "في هذا المقال سأشارككم أهم النصائح للحصول على صور زفاف مثالية...",
+                                datePosted: new Date().toISOString()
+                            }
+                        ],
+                        about: "مصور فوتوغرافي محترف بخبرة تزيد عن 10 سنوات في مجال التصوير. متخصص في تصوير حفلات الزفاف والمناسبات الخاصة.",
+                        settings: {
+                            siteTitle: "جميل غانم - مصور فوتوغرافي",
+                            heroDescription: "أسعى لتخليد لحظاتكم الثمينة بأجمل الصور وأروع الذكريات",
+                            phone: "771145933",
+                            socialLinks: {
+                                facebook: "",
+                                instagram: "",
+                                twitter: ""
+                            }
+                        },
+                        messages: [],
+                        admin: {
+                            username: "admin",
+                            password: "123456"
+                        }
+                    };
+                    localStorage.setItem('photographerDB', JSON.stringify(initialData));
+                }
+            }
+
+            getData() {
+                return JSON.parse(localStorage.getItem('photographerDB'));
+            }
+
+            saveData(data) {
+                localStorage.setItem('photographerDB', JSON.stringify(data));
+            }
+
+            // Portfolio methods
+            getPortfolio() {
+                return this.getData().portfolio;
+            }
+
+            addPortfolioItem(item) {
+                const data = this.getData();
+                item.id = Date.now();
+                item.dateAdded = new Date().toISOString();
+                data.portfolio.push(item);
+                this.saveData(data);
+                return item;
+            }
+
+            deletePortfolioItem(id) {
+                const data = this.getData();
+                data.portfolio = data.portfolio.filter(item => item.id !== parseInt(id));
+                this.saveData(data);
+            }
+
+            // Services methods
+            getServices() {
+                return this.getData().services;
+            }
+
+            addService(service) {
+                const data = this.getData();
+                service.id = Date.now();
+                data.services.push(service);
+                this.saveData(data);
+                return service;
+            }
+
+            deleteService(id) {
+                const data = this.getData();
+                data.services = data.services.filter(item => item.id !== parseInt(id));
+                this.saveData(data);
+            }
+
+            // Articles methods
+            getArticles() {
+                return this.getData().articles;
+            }
+
+            addArticle(article) {
+                const data = this.getData();
+                article.id = Date.now();
+                article.datePosted = new Date().toISOString();
+                data.articles.push(article);
+                this.saveData(data);
+                return article;
+            }
+
+            deleteArticle(id) {
+                const data = this.getData();
+                data.articles = data.articles.filter(item => item.id !== parseInt(id));
+                this.saveData(data);
+            }
+
+            // About methods
+            getAbout() {
+                return this.getData().about;
+            }
+
+            updateAbout(content) {
+                const data = this.getData();
+                data.about = content;
+                this.saveData(data);
+            }
+
+            // Settings methods
+            getSettings() {
+                return this.getData().settings;
+            }
+
+            updateSettings(settings) {
+                const data = this.getData();
+                data.settings = { ...data.settings, ...settings };
+                this.saveData(data);
+            }
+
+            // Update portfolio item
+            updatePortfolioItem(id, updatedItem) {
+                const data = this.getData();
+                const index = data.portfolio.findIndex(item => item.id === parseInt(id));
+                if (index !== -1) {
+                    data.portfolio[index] = { ...data.portfolio[index], ...updatedItem };
+                    this.saveData(data);
+                }
+            }
+
+            // Update service
+            updateService(id, updatedService) {
+                const data = this.getData();
+                const index = data.services.findIndex(item => item.id === parseInt(id));
+                if (index !== -1) {
+                    data.services[index] = { ...data.services[index], ...updatedService };
+                    this.saveData(data);
+                }
+            }
+
+            // Update article
+            updateArticle(id, updatedArticle) {
+                const data = this.getData();
+                const index = data.articles.findIndex(item => item.id === parseInt(id));
+                if (index !== -1) {
+                    data.articles[index] = { ...data.articles[index], ...updatedArticle };
+                    this.saveData(data);
+                }
+            }
+
+            // Messages methods
+            getMessages() {
+                return this.getData().messages;
+            }
+
+            addMessage(message) {
+                const data = this.getData();
+                message.id = Date.now();
+                message.dateSent = new Date().toISOString();
+                data.messages.push(message);
+                this.saveData(data);
+                return message;
+            }
+
+            deleteMessage(id) {
+                const data = this.getData();
+                data.messages = data.messages.filter(item => item.id !== parseInt(id));
+                this.saveData(data);
+            }
+
+            // Admin methods
+            checkAdmin(username, password) {
+                const data = this.getData();
+                return data.admin.username === username && data.admin.password === password;
+            }
+
+            updateAdmin(username, password) {
+                const data = this.getData();
+                data.admin.username = username;
+                data.admin.password = password;
+                this.saveData(data);
+            }
+
+            getAdmin() {
+                return this.getData().admin;
+            }
+        }
+
+        // Initialize database
+        const db = new LocalDB();
+        let isAdminLoggedIn = false;
+
+        // Load initial content
+        document.addEventListener('DOMContentLoaded', function() {
+            loadPortfolio();
+            loadServices();
+            loadAbout();
+            loadArticles();
+            loadSettings();
+        });
+
+        // Navigation functions
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Portfolio functions
+        function loadPortfolio() {
+            const portfolio = db.getPortfolio();
+            const grid = document.getElementById('portfolioGrid');
+            
+            grid.innerHTML = portfolio.map(item => `
+                <div class="gallery-item portfolio-item" data-category="${item.category}">
+                    <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                        <img src="${item.imageUrl}" alt="${item.title}" class="w-full h-64 object-cover cursor-pointer" onclick="openLightbox('${item.imageUrl}')">
+                        <div class="p-4">
+                            <h3 class="font-bold text-lg mb-2">${item.title}</h3>
+                            <p class="text-gray-600 text-sm">${item.description}</p>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterPortfolio(category) {
+            const items = document.querySelectorAll('.portfolio-item');
+            const buttons = document.querySelectorAll('.filter-btn');
+            
+            // Update button styles
+            buttons.forEach(btn => {
+                btn.classList.remove('bg-brand-red', 'text-white');
+                btn.classList.add('bg-gray-200', 'text-black');
+            });
+            event.target.classList.remove('bg-gray-200', 'text-black');
+            event.target.classList.add('bg-brand-red', 'text-white');
+            
+            // Filter items
+            items.forEach(item => {
+                if (category === 'all' || item.dataset.category === category) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        // Services functions
+        function loadServices() {
+            const services = db.getServices();
+            const grid = document.getElementById('servicesGrid');
+            
+            grid.innerHTML = services.map(service => `
+                <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <h3 class="font-bold text-xl mb-4 text-brand-red">${service.name}</h3>
+                    <p class="text-gray-700 mb-4">${service.description}</p>
+                    ${service.price ? `<div class="text-lg font-bold text-black">${service.price}</div>` : ''}
+                </div>
+            `).join('');
+        }
+
+        // About functions
+        function loadAbout() {
+            const about = db.getAbout();
+            document.getElementById('aboutContent').innerHTML = `<p>${about}</p>`;
+        }
+
+        // Articles functions
+        function loadArticles() {
+            const articles = db.getArticles();
+            const grid = document.getElementById('articlesGrid');
+            
+            grid.innerHTML = articles.map(article => `
+                <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <h3 class="font-bold text-xl mb-4 text-brand-red">${article.title}</h3>
+                    <p class="text-gray-700">${article.content.substring(0, 150)}...</p>
+                    <div class="mt-4 text-sm text-gray-500">
+                        ${new Date(article.datePosted).toLocaleDateString('ar-SA')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Settings functions
+        function loadSettings() {
+            const settings = db.getSettings();
+            document.getElementById('heroDescription').textContent = settings.heroDescription;
+            document.getElementById('contactPhone').textContent = settings.phone;
+            
+            // Load social links
+            const socialLinks = document.getElementById('socialLinks');
+            let linksHTML = '';
+            if (settings.socialLinks.facebook) {
+                linksHTML += `<a href="${settings.socialLinks.facebook}" class="text-blue-500 hover:text-blue-400"><i class="fab fa-facebook text-2xl"></i></a>`;
+            }
+            if (settings.socialLinks.instagram) {
+                linksHTML += `<a href="${settings.socialLinks.instagram}" class="text-pink-500 hover:text-pink-400"><i class="fab fa-instagram text-2xl"></i></a>`;
+            }
+            if (settings.socialLinks.twitter) {
+                linksHTML += `<a href="${settings.socialLinks.twitter}" class="text-blue-400 hover:text-blue-300"><i class="fab fa-twitter text-2xl"></i></a>`;
+            }
+            socialLinks.innerHTML = linksHTML;
+        }
+
+        // Contact form
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const message = {
+                name: document.getElementById('clientName').value,
+                email: document.getElementById('clientEmail').value,
+                phone: document.getElementById('clientPhone').value,
+                message: document.getElementById('clientMessage').value
+            };
+            
+            db.addMessage(message);
+            alert('تم إرسال رسالتك بنجاح! سأتواصل معك قريباً.');
+            this.reset();
+        });
+
+        // Lightbox functions
+        function openLightbox(imageSrc) {
+            document.getElementById('lightboxImg').src = imageSrc;
+            document.getElementById('lightbox').classList.remove('hidden');
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.add('hidden');
+        }
+
+        // Admin functions
+        function showAdminLogin() {
+            document.getElementById('adminLoginModal').classList.remove('hidden');
+        }
+
+        function hideAdminLogin() {
+            document.getElementById('adminLoginModal').classList.add('hidden');
+        }
+
+        document.getElementById('adminLoginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('adminUsername').value;
+            const password = document.getElementById('adminPassword').value;
+            
+            if (db.checkAdmin(username, password)) {
+                isAdminLoggedIn = true;
+                hideAdminLogin();
+                showAdminPanel();
+                loadAdminContent();
+            } else {
+                alert('اسم المستخدم أو كلمة المرور غير صحيحة');
+            }
+        });
+
+        function showAdminPanel() {
+            document.getElementById('adminPanel').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function hideAdminPanel() {
+            document.getElementById('adminPanel').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+            isAdminLoggedIn = false;
+        }
+
+        function showAdminSection(section) {
+            // Hide all sections
+            document.querySelectorAll('.admin-section').forEach(sec => sec.classList.add('hidden'));
+            
+            // Update navigation buttons
+            document.querySelectorAll('.admin-nav-btn').forEach(btn => {
+                btn.classList.remove('bg-brand-red');
+                btn.classList.add('bg-gray-600');
+            });
+            
+            // Show selected section
+            document.getElementById('admin' + section.charAt(0).toUpperCase() + section.slice(1)).classList.remove('hidden');
+            
+            // Update active button
+            event.target.classList.remove('bg-gray-600');
+            event.target.classList.add('bg-brand-red');
+        }
+
+        function loadAdminContent() {
+            loadAdminPortfolio();
+            loadAdminServices();
+            loadAdminArticles();
+            loadAdminMessages();
+            loadAdminSettings();
+            loadAdminAccount();
+        }
+
+        // Admin Portfolio Management
+        function loadAdminPortfolio() {
+            const portfolio = db.getPortfolio();
+            const list = document.getElementById('adminPortfolioList');
+            
+            list.innerHTML = portfolio.map(item => `
+                <div class="bg-gray-600 p-4 rounded-lg">
+                    <img src="${item.imageUrl}" alt="${item.title}" class="w-full h-32 object-cover rounded mb-3">
+                    <h4 class="text-white font-bold mb-2">${item.title}</h4>
+                    <p class="text-gray-300 text-sm mb-3">${item.description}</p>
+                    <div class="flex space-x-2 space-x-reverse">
+                        <button onclick="editPortfolioItem(${item.id})" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                            <i class="fas fa-edit ml-1"></i>تعديل
+                        </button>
+                        <button onclick="deletePortfolioItem(${item.id})" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
+                            <i class="fas fa-trash ml-1"></i>حذف
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        document.getElementById('imageFile').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('previewImg').src = e.target.result;
+                    document.getElementById('imagePreview').classList.remove('hidden');
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        document.getElementById('addImageForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const editId = this.dataset.editId;
+            const fileInput = document.getElementById('imageFile');
+            
+            const item = {
+                title: document.getElementById('imageTitle').value,
+                category: document.getElementById('imageCategory').value,
+                description: document.getElementById('imageDescription').value
+            };
+            
+            if (editId) {
+                // Edit mode
+                if (fileInput.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        item.imageUrl = e.target.result;
+                        db.updatePortfolioItem(editId, item);
+                        loadPortfolio();
+                        loadAdminPortfolio();
+                        resetImageForm();
+                        alert('تم تحديث الصورة بنجاح!');
+                    };
+                    reader.readAsDataURL(fileInput.files[0]);
+                } else {
+                    db.updatePortfolioItem(editId, item);
+                    loadPortfolio();
+                    loadAdminPortfolio();
+                    resetImageForm();
+                    alert('تم تحديث الصورة بنجاح!');
+                }
+            } else {
+                // Add mode
+                if (!fileInput.files[0]) {
+                    alert('يرجى اختيار صورة');
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    item.imageUrl = e.target.result;
+                    db.addPortfolioItem(item);
+                    loadPortfolio();
+                    loadAdminPortfolio();
+                    resetImageForm();
+                    alert('تم إضافة الصورة بنجاح!');
+                };
+                reader.readAsDataURL(fileInput.files[0]);
+            }
+        });
+
+        function resetImageForm() {
+            const form = document.getElementById('addImageForm');
+            form.reset();
+            form.removeAttribute('data-edit-id');
+            form.querySelector('button[type="submit"]').innerHTML = '<i class="fas fa-plus ml-2"></i>إضافة الصورة';
+            document.getElementById('imagePreview').classList.add('hidden');
+        }
+
+        function deletePortfolioItem(id) {
+            if (confirm('هل أنت متأكد من حذف هذه الصورة؟')) {
+                db.deletePortfolioItem(id);
+                loadPortfolio();
+                loadAdminPortfolio();
+            }
+        }
+
+        // Admin Services Management
+        function loadAdminServices() {
+            const services = db.getServices();
+            const list = document.getElementById('adminServicesList');
+            
+            list.innerHTML = services.map(service => `
+                <div class="bg-gray-600 p-4 rounded-lg">
+                    <h4 class="text-white font-bold mb-2">${service.name}</h4>
+                    <p class="text-gray-300 mb-2">${service.description}</p>
+                    <p class="text-brand-red font-bold mb-3">${service.price}</p>
+                    <div class="flex space-x-2 space-x-reverse">
+                        <button onclick="editService(${service.id})" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                            <i class="fas fa-edit ml-1"></i>تعديل
+                        </button>
+                        <button onclick="deleteService(${service.id})" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
+                            <i class="fas fa-trash ml-1"></i>حذف
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        document.getElementById('addServiceForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const editId = this.dataset.editId;
+            const service = {
+                name: document.getElementById('serviceName').value,
+                description: document.getElementById('serviceDescription').value,
+                price: document.getElementById('servicePrice').value,
+                category: document.getElementById('serviceCategory').value
+            };
+            
+            if (editId) {
+                db.updateService(editId, service);
+                alert('تم تحديث الخدمة بنجاح!');
+            } else {
+                db.addService(service);
+                alert('تم إضافة الخدمة بنجاح!');
+            }
+            
+            loadServices();
+            loadAdminServices();
+            resetServiceForm();
+        });
+
+        function resetServiceForm() {
+            const form = document.getElementById('addServiceForm');
+            form.reset();
+            form.removeAttribute('data-edit-id');
+            form.querySelector('button[type="submit"]').innerHTML = '<i class="fas fa-plus ml-2"></i>إضافة الخدمة';
+        }
+
+        function deleteService(id) {
+            if (confirm('هل أنت متأكد من حذف هذه الخدمة؟')) {
+                db.deleteService(id);
+                loadServices();
+                loadAdminServices();
+            }
+        }
+
+        // Admin Articles Management
+        function loadAdminArticles() {
+            const articles = db.getArticles();
+            const list = document.getElementById('adminArticlesList');
+            
+            list.innerHTML = articles.map(article => `
+                <div class="bg-gray-600 p-4 rounded-lg">
+                    <h4 class="text-white font-bold mb-2">${article.title}</h4>
+                    <p class="text-gray-300 mb-3">${article.content.substring(0, 100)}...</p>
+                    <div class="flex space-x-2 space-x-reverse">
+                        <button onclick="editArticle(${article.id})" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                            <i class="fas fa-edit ml-1"></i>تعديل
+                        </button>
+                        <button onclick="deleteArticle(${article.id})" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
+                            <i class="fas fa-trash ml-1"></i>حذف
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        document.getElementById('addArticleForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const editId = this.dataset.editId;
+            const article = {
+                title: document.getElementById('articleTitle').value,
+                content: document.getElementById('articleContent').value
+            };
+            
+            
+            if (editId) {
+                db.updateArticle(editId, article);
+                alert('تم تحديث المقال بنجاح!');
+            } else {
+                db.addArticle(article);
+                alert('تم إضافة المقال بنجاح!');
+            }
+            
+            loadArticles();
+            loadAdminArticles();
+            resetArticleForm();
+        });
+
+        function resetArticleForm() {
+            const form = document.getElementById('addArticleForm');
+            form.reset();
+            form.removeAttribute('data-edit-id');
+            form.querySelector('button[type="submit"]').innerHTML = '<i class="fas fa-plus ml-2"></i>إضافة المقال';
+        }
+
+        function deleteArticle(id) {
+            if (confirm('هل أنت متأكد من حذف هذا المقال؟')) {
+                db.deleteArticle(id);
+                loadArticles();
+                loadAdminArticles();
+            }
+        }
+
+        // Admin About Management
+        document.getElementById('aboutForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const content = document.getElementById('aboutText').value;
+            db.updateAbout(content);
+            loadAbout();
+            alert('تم حفظ السيرة الذاتية بنجاح!');
+        });
+
+        // Admin Settings Management
+        function loadAdminSettings() {
+            const settings = db.getSettings();
+            document.getElementById('siteTitle').value = settings.siteTitle;
+            document.getElementById('heroDesc').value = settings.heroDescription;
+            document.getElementById('phoneNumber').value = settings.phone;
+            document.getElementById('facebookLink').value = settings.socialLinks.facebook || '';
+            document.getElementById('instagramLink').value = settings.socialLinks.instagram || '';
+            document.getElementById('twitterLink').value = settings.socialLinks.twitter || '';
+            document.getElementById('aboutText').value = db.getAbout();
+        }
+
+        document.getElementById('settingsForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const settings = {
+                siteTitle: document.getElementById('siteTitle').value,
+                heroDescription: document.getElementById('heroDesc').value,
+                phone: document.getElementById('phoneNumber').value,
+                socialLinks: {
+                    facebook: document.getElementById('facebookLink').value,
+                    instagram: document.getElementById('instagramLink').value,
+                    twitter: document.getElementById('twitterLink').value
+                }
+            };
+            
+            db.updateSettings(settings);
+            loadSettings();
+            alert('تم حفظ الإعدادات بنجاح!');
+        });
+
+        // Admin Messages Management
+        function loadAdminMessages() {
+            const messages = db.getMessages();
+            const list = document.getElementById('messagesList');
+            
+            if (messages.length === 0) {
+                list.innerHTML = '<p class="text-gray-400">لا توجد رسائل جديدة</p>';
+                return;
+            }
+            
+            list.innerHTML = messages.map(message => `
+                <div class="bg-gray-600 p-4 rounded-lg">
+                    <div class="flex justify-between items-start mb-3">
+                        <h4 class="text-white font-bold">${message.name}</h4>
+                        <button onclick="deleteMessage(${message.id})" class="text-red-400 hover:text-red-300">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                    <p class="text-gray-300 mb-2">البريد: ${message.email}</p>
+                    <p class="text-gray-300 mb-2">الهاتف: ${message.phone}</p>
+                    <p class="text-gray-200 mb-3">${message.message}</p>
+                    <p class="text-gray-400 text-sm">${new Date(message.dateSent).toLocaleString('ar-SA')}</p>
+                </div>
+            `).join('');
+        }
+
+        function deleteMessage(id) {
+            if (confirm('هل أنت متأكد من حذف هذه الرسالة؟')) {
+                db.deleteMessage(id);
+                loadAdminMessages();
+            }
+        }
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Edit Portfolio Item
+        function editPortfolioItem(id) {
+            const portfolio = db.getPortfolio();
+            const item = portfolio.find(p => p.id === parseInt(id));
+            if (!item) return;
+
+            document.getElementById('imageTitle').value = item.title;
+            document.getElementById('imageCategory').value = item.category;
+            document.getElementById('imageDescription').value = item.description;
+            
+            // Show preview
+            document.getElementById('previewImg').src = item.imageUrl;
+            document.getElementById('imagePreview').classList.remove('hidden');
+            
+            // Change form to edit mode
+            const form = document.getElementById('addImageForm');
+            form.dataset.editId = id;
+            form.querySelector('button[type="submit"]').innerHTML = '<i class="fas fa-save ml-2"></i>حفظ التعديلات';
+        }
+
+        // Edit Service
+        function editService(id) {
+            const services = db.getServices();
+            const service = services.find(s => s.id === parseInt(id));
+            if (!service) return;
+
+            document.getElementById('serviceName').value = service.name;
+            document.getElementById('serviceDescription').value = service.description;
+            document.getElementById('servicePrice').value = service.price;
+            document.getElementById('serviceCategory').value = service.category;
+            
+            // Change form to edit mode
+            const form = document.getElementById('addServiceForm');
+            form.dataset.editId = id;
+            form.querySelector('button[type="submit"]').innerHTML = '<i class="fas fa-save ml-2"></i>حفظ التعديلات';
+        }
+
+        // Edit Article
+        function editArticle(id) {
+            const articles = db.getArticles();
+            const article = articles.find(a => a.id === parseInt(id));
+            if (!article) return;
+
+            document.getElementById('articleTitle').value = article.title;
+            document.getElementById('articleContent').value = article.content;
+            
+            // Change form to edit mode
+            const form = document.getElementById('addArticleForm');
+            form.dataset.editId = id;
+            form.querySelector('button[type="submit"]').innerHTML = '<i class="fas fa-save ml-2"></i>حفظ التعديلات';
+        }
+
+        // Account Management
+        document.getElementById('accountForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const currentPassword = document.getElementById('currentPassword').value;
+            const newUsername = document.getElementById('newUsername').value;
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            const admin = db.getAdmin();
+            
+            if (currentPassword !== admin.password) {
+                alert('كلمة المرور الحالية غير صحيحة');
+                return;
+            }
+            
+            if (newPassword !== confirmPassword) {
+                alert('كلمة المرور الجديدة غير متطابقة');
+                return;
+            }
+            
+            if (!newUsername || !newPassword) {
+                alert('يرجى ملء جميع الحقول');
+                return;
+            }
+            
+            db.updateAdmin(newUsername, newPassword);
+            alert('تم تحديث بيانات الحساب بنجاح!');
+            this.reset();
+        });
+
+        // Load admin account data
+        function loadAdminAccount() {
+            const admin = db.getAdmin();
+            document.getElementById('newUsername').value = admin.username;
+        }
+
+        // Close modals when clicking outside
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('modal')) {
+                e.target.classList.add('hidden');
+            }
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'976746d0b3dcf9d1',t:'MTc1NjQyMDQ3Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
